@@ -7,6 +7,13 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Paper from '@material-ui/core/Paper'
 
+
+const RenderRow = (props) =>{
+	return props.keys.map((key, index)=>{
+		return <TableCell key={props.data[key]}>{props.data[key]}</TableCell>
+	})
+}
+
 export default class MyTable extends React.Component {
 	
 	constructor(props){
@@ -31,7 +38,9 @@ export default class MyTable extends React.Component {
 		var items = this.props.data;
 		var keys = this.getKeys();
 		return items.map((row, index)=>{
-			return <TableRow style ={ index % 2? { background : "#649568" }:{ background : "#9ccc9c" }} key={index}><RenderRow key={index} data={row} keys={keys}/></TableRow>
+			return <TableRow
+				style ={index % 2? {background:"#649568"}:{ background : "#9ccc9c" }}
+				key={index}><RenderRow key={index} data={row} keys={keys}/></TableRow>
 		})
 	}
 
@@ -41,7 +50,7 @@ export default class MyTable extends React.Component {
 				<TableContainer component={Paper}>
 					<Table >
 						<TableHead>
-							<TableRow style={{ background : "#649568" }}>{this.getHeader()}</TableRow>
+							<TableRow style={{background : "#649568"}}>{this.getHeader()}</TableRow>
 						</TableHead>
 						<TableBody>{this.getRowsData()}</TableBody>
 					</Table>
@@ -49,10 +58,4 @@ export default class MyTable extends React.Component {
 			</div>
 		);
 	}
-}
-
-const RenderRow = (props) =>{
-  return props.keys.map((key, index)=>{
-    return <TableCell key={props.data[key]}>{props.data[key]}</TableCell>
-  })
 }

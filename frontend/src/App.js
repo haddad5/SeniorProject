@@ -20,22 +20,22 @@ const title = {
 
 const body = {
 	background: "#A3663E",
-	height: "480",
-	padding: "20px"
+	height: 480,
+	padding: 20
 };
 
 const image = {
-	width: "96px",
-	height: "80px"
+	width: 96,
+	height: 80
 };
 
 const filter = {
-	align: "center"	
+	align: "center",	
+	margin: "2%"
 };
 
 const searchbar = {
-	width: "90%",
-	background: "white"	
+	width: "98%",
 };
 
 const theme = createMuiTheme({
@@ -58,7 +58,7 @@ export default class App extends React.Component {
 	state = {
 		loading: true,
 		tableData: null
-	}
+	};
 	
 	
 
@@ -81,10 +81,9 @@ export default class App extends React.Component {
 					<Grid item xs={8} style={header}>
 						<Grid container style={filter}>
 							<Grid item xs={4}>
-								<Menu name="Difficulty" items={["1", "2", "3", "4", "5"]}/>
+								<Menu newTheme={theme} name="Difficulty" items={["1", "2", "3", "4", "5"]}/>
 								<Menu name="State" items={["NH", "MA", "RI", "VT", "ME"]}/>
 								<Menu name="Activities" items={["First year requirements", "Backwoods Engineering", "Hiking", "Dispersed Camping"]}/>
-								<Button variant="contained" color="primary" size="large">APPLY</Button>
 							</Grid>
 							<Grid item xs={7}>
 								<TextField label="Search" color="secondary" variant="outlined" style={searchbar}/>
