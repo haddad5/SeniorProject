@@ -9,6 +9,8 @@ import {ThemeProvider} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/grid';
 import './stylesheet.css';
 import tree from './images/tree.png';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
 
 const header = {
   background: '#8DD1DD',
@@ -73,29 +75,43 @@ export default class App extends React.Component {
             <img src={tree} style={image}/>
           </Grid>
           <Grid item xs={3} style={header}>
-            <h1 style={title}>Camping Advisor USA</h1>
+            <Typography variant="h4" style={title} >Camping Advisor USA</Typography>
           </Grid>
           <Grid item xs={8} style={header}>
             <Grid container style={filter}>
               <Grid item xs={4}>
-                <Menu newTheme={theme} name='Difficulty' items={['1', '2', '3', '4', '5']}/>
-                <Menu name='State' items={['NH', 'MA', 'RI', 'VT', 'ME']}/>
-                <Menu name='Activities' items={['First year requirements', 'Backwoods Engineering', 'Hiking', 'Dispersed Camping']}/>
+                <Menu newTheme={theme} name='Difficulty'
+                  items={['1', '2', '3', '4', '5']}/>
+                <Menu name='State'
+                  items={['NH', 'MA', 'RI', 'VT', 'ME']}
+                />
+                <Menu name='Activities' 
+                  items={[
+                    'First year requirements',
+                    'Backwoods Engineering',
+                    'Hiking',
+                    'Dispersed Camping'
+                  ]}
+                />
               </Grid>
               <Grid item xs={7}>
-                <TextField label='Search' color='secondary' variant='outlined' style={searchbar}/>
+                <TextField label='Search' color='secondary'
+                  variant='outlined' style={searchbar}
+                />
               </Grid>
               <Grid item xs={1}>
-                <Button variant='contained' color='primary'><Search/></Button>
+                <Button variant='contained' color='primary'>
+                  <Search/>
+                </Button>
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={2} style={body}>
           </Grid>
           <Grid item xs={10} style={body}>
-            <p>The perfect site for all of your camping needs.</p>
+            <Typography variant="body1">The perfect site for all of your camping needs.</Typography>
             {this.state.loading || this.state.tableData == null ? (
-              <p>loading...</p>
+              <CircularProgress color="primary" />
             ) : (
               <Table data={this.state.tableData}/>
             )}

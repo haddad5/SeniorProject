@@ -25,9 +25,13 @@ export default function SimpleMenu(props) {
 
   return (
     <ThemeProvider theme={props.newTheme}>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}
-        variant="contained" color="primary" size="large">{props.name}<ArrowDropDownIcon/></Button>
-      <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose} >
+      <Button aria-controls="simple-menu"
+        aria-haspopup="true" onClick={handleClick}
+        variant="contained" color="primary" size="large">
+        {props.name}<ArrowDropDownIcon/>
+      </Button>
+      <Menu anchorEl={anchorEl} keepMounted
+        open={Boolean(anchorEl)} onClose={handleClose}>
         {createMenu()}
       </Menu>
     </ThemeProvider>

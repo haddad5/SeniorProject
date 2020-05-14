@@ -47,7 +47,9 @@ export default class MyTable extends React.Component {
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableRow style={{background: '#649568'}}>{this.getHeader()}</TableRow>
+            <TableRow style={{background: '#649568'}}>
+              {this.getHeader()}
+            </TableRow>
           </TableHead>
           <TableBody>{this.getRowsData()}</TableBody>
         </Table>
