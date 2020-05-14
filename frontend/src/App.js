@@ -60,6 +60,7 @@ export default class App extends React.Component {
     this.state = {
       loading: true,
       tableData: null,
+      
     };
   }
   componentDidMount() {
