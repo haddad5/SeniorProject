@@ -1,5 +1,6 @@
 package api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 
 @Path("/trips")
@@ -14,20 +16,20 @@ public class TableData {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Map> getTableData() {
+	public Response getTableData() {
 		SqliteDB db = null;
 		List<Map> resource = null;
 		try {
 			db = new SqliteDB();
 			resource = db.getTrips();
-		} catch(Exception e) {
+			return Response.ok(resource, MediaType.APPLICATION_JSON).build();
+		} catch(Throwable e) {
 			e.printStackTrace();
-			throw new RuntimeException("Trips table not found.");
+			return Response.serverError().build();
 		} finally {
 			if(db != null)
 				db.closeConnection();
 		}
-		return resource;
 		
 	}
 	

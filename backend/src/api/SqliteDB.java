@@ -9,15 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 public class SqliteDB {
 	
 	Connection c = null;
 	
 	public SqliteDB() {
 		try {
-			
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:LinuxVMSharedFolder/work2/SeniorProject/backend/camping.db");
+			c = DriverManager.getConnection("jdbc:sqlite:" + System.getenv().get("DEV_PATH"));
 			System.out.println("Connected!");
 			
 		} catch(Exception e) {
@@ -51,9 +53,9 @@ public class SqliteDB {
 			
 			return arr;
 			
-		} catch(Exception ex) {
-			ex.printStackTrace();
-			return null;
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 	
