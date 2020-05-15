@@ -1,5 +1,6 @@
 package api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,10 +16,17 @@ public class TableData {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Map> getTableData() {
-		
-		SqliteDB db = new SqliteDB();
-		List<Map> resource = db.getTrips();
-		db.closeConnection();
+		SqliteDB db = null;
+		List<Map> resource = null;
+		try {
+			db = new SqliteDB();
+			resource = db.getTrips();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(db != null)
+				db.closeConnection();
+		}
 		return resource;
 		
 	}

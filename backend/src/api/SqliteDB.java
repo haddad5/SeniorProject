@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,24 +13,23 @@ import java.util.Map;
 public class SqliteDB {
 	
 	Connection c = null;
-	Statement stmt = null;
 	
 	public SqliteDB() {
 		try {
 			
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:/home/camping.db");
+			c = DriverManager.getConnection("jdbc:sqlite:LinuxVMSharedFolder/work2/SeniorProject/backend/camping.db");
 			System.out.println("Connected!");
 			
-		} catch(Exception ex) {
-			ex.printStackTrace();
+		} catch(Exception e) {
+			throw new EmptyStackException();
 		}
 	}
 	
 	public List<Map> getTrips() {
 		try {
-			
-			this.stmt = c.createStatement();
+			Statement stmt = null;
+			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM trips;");
 			
 			List<Map> arr = new ArrayList<Map>();
