@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,8 @@ public class SqliteDB {
 			System.out.println("Connected!");
 			
 		} catch(Exception e) {
-			throw new EmptyStackException();
+			e.printStackTrace();
+			throw new RuntimeException("Database Initialization Failed.");
 		}
 	}
 	

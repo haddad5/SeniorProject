@@ -1,6 +1,5 @@
 package api;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +22,7 @@ public class TableData {
 			resource = db.getTrips();
 		} catch(Exception e) {
 			e.printStackTrace();
+			throw new RuntimeException("Trips table not found.");
 		} finally {
 			if(db != null)
 				db.closeConnection();
