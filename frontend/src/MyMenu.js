@@ -1,10 +1,6 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
 import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
-import {ThemeProvider} from '@material-ui/core/styles';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
@@ -24,7 +20,9 @@ export default class SimpleMenu extends React.Component {
     const choices = this.state.choices;
     
     const handleChange = (event) => {
-        this.setState({choices: event.target.value,});
+      const val = event.target.value;
+      this.setState({choices: val,});
+      props.onMenuChange(props.name, val);
     };
     
     return (

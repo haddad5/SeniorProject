@@ -57,16 +57,53 @@ const theme = createMuiTheme({
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.onMenuChange = this.onMenuChange.bind(this);
     this.state = {
       loading: true,
-      tableData: null,
-      
+      tableData: [],
+      Difficulty: [],
+      State: [],
+      Activities: [],
     };
   }
   componentDidMount() {
     fetch('http://ec2-52-15-145-226.us-east-2.compute.amazonaws.com:8080/camping/api/trips')
         .then((response) => response.json())
         .then((data) => this.setState({tableData: data, loading: false}));
+  }
+  
+  onMenuChange(menuName, newValue) {
+    this.setState({[menuName]: newValue})
+  }
+  
+  filterTrips() {
+    const tableData = this.state.tableData;
+    const difficulty = this.state.Difficulty;
+    const activities = this.state.Activities;
+    const state = this.state.State;
+    const filteredData = [];
+    for(var i = 0; i < tableData.length; i++) {
+      if(
+        difficulty.includes("" + tableData[i].difficulty) ||
+        state.includes(tableData[i].state)
+      ) {
+        filteredData.push(tableData[i]);
+      } else {
+        const tripActivities = tableData[i].activities.split(", ");
+        for(var j = 0; j < tripActivities.length; j++) {
+          if(activities.includes(tripActivities[j])) {
+            filteredData.push(tableData[i]);
+            break;
+          }
+        }
+      }
+    }
+    if(difficulty.length === 0 && state.length === 0 && activities.length === 0) {
+      console.log("Showing tableData: ", tableData);
+      return tableData;
+    } else {
+      return filteredData;
+    }
   }
   render() {
     return (
@@ -93,6 +130,7 @@ export default class App extends React.Component {
                     'Hiking',
                     'Dispersed Camping'
                   ]}
+                onMenuChange={this.onMenuChange}
                 />
               </Grid>
               <Grid item xs={7}>
@@ -114,7 +152,7 @@ export default class App extends React.Component {
             {this.state.loading || this.state.tableData == null ? (
               <CircularProgress color="primary" />
             ) : (
-              <Table data={this.state.tableData}/>
+              <Table data={this.filterTrips()} />
             )}
           </Grid>
         </Grid>
