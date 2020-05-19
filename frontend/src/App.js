@@ -55,16 +55,53 @@ const theme = createMuiTheme({
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.onMenuChange = this.onMenuChange.bind(this);
     this.state = {
       loading: true,
-      tableData: null,
-      
+      tableData: [],
+      Difficulty: [],
+      State: [],
+      Activities: [],
     };
   }
   componentDidMount() {
     fetch('http://ec2-52-15-145-226.us-east-2.compute.amazonaws.com:8080/camping/api/trips')
         .then((response) => response.json())
         .then((data) => this.setState({tableData: data, loading: false}));
+  }
+  
+  onMenuChange(menuName, newValue) {
+    this.setState({[menuName]: newValue})
+  }
+  
+  filterTrips() {
+    const tableData = this.state.tableData;
+    const difficulty = this.state.Difficulty;
+    const activities = this.state.Activities;
+    const state = this.state.State;
+    const filteredData = [];
+    for(var i = 0; i < tableData.length; i++) {
+      if(
+        difficulty.includes("" + tableData[i].difficulty) ||
+        state.includes(tableData[i].state)
+      ) {
+        filteredData.push(tableData[i]);
+      } else {
+        const tripActivities = tableData[i].activities.split(", ");
+        for(var j = 0; j < tripActivities.length; j++) {
+          if(activities.includes(tripActivities[j])) {
+            filteredData.push(tableData[i]);
+            break;
+          }
+        }
+      }
+    }
+    if(difficulty.length === 0 && state.length === 0 && activities.length === 0) {
+      console.log("Showing tableData: ", tableData);
+      return tableData;
+    } else {
+      return filteredData;
+    }
   }
   render() {
     return (
@@ -79,9 +116,17 @@ export default class App extends React.Component {
           <Grid item xs={8} style={header}>
             <Grid container style={filter}>
               <Grid item xs={5}>
-                <Menu newTheme={theme} name='Difficulty' items={['1', '2', '3', '4', '5']}/>
-                <Menu name='State' items={['NH', 'MA', 'RI', 'VT', 'ME']}/>
-                <Menu name='Activities' items={['First year requirements', 'Backwoods Engineering', 'Hiking', 'Dispersed Camping']}/>
+                <Menu name='Difficulty' items={['1', '2', '3', '4', '5']} onMenuChange={this.onMenuChange} />
+                <Menu name='State' items={['NH', 'MA', 'RI', 'VT', 'ME']} onMenuChange={this.onMenuChange} />
+                <Menu name='Activities' 
+                  items={[
+                    'First year requirements',
+                    'Backwoods Engineering',
+                    'Hiking',
+                    'Dispersed Camping'
+                  ]}
+                onMenuChange={this.onMenuChange}
+                />
               </Grid>
               <Grid item xs={6}>
                 <TextField label='Search' color='secondary' variant='outlined' style={searchbar}/>
@@ -98,7 +143,7 @@ export default class App extends React.Component {
             {this.state.loading || this.state.tableData == null ? (
               <p>loading...</p>
             ) : (
-              <Table data={this.state.tableData}/>
+              <Table data={this.filterTrips()} />
             )}
           </Grid>
         </Grid>
