@@ -1,6 +1,5 @@
 package api;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +11,7 @@ import javax.ws.rs.core.Response;
 
 
 @Path("/trips")
-public class TableData {
+public class TripsAPI {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
