@@ -112,6 +112,7 @@ export default class App extends React.Component {
       return filteredData;
     }
   }
+  
   render() {
     return (
       <ThemeProvider theme={theme}>
