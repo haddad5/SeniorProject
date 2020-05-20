@@ -58,6 +58,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.onMenuChange = this.onMenuChange.bind(this);
+    this.arrayContainsAnyFrom = this.arrayContainsAnyFrom.bind(this);
     this.state = {
       loading: true,
       tableData: [],
@@ -76,6 +77,15 @@ export default class App extends React.Component {
     this.setState({[menuName]: newValue})
   }
   
+  arrayContainsAnyFrom(arr1, arr2) {
+    for(var x = 0; x < arr2.length; x++) {
+      if(arr1.includes(arr2[x])) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
   filterTrips() {
     const tableData = this.state.tableData;
     const difficulty = this.state.Difficulty;
@@ -83,19 +93,16 @@ export default class App extends React.Component {
     const state = this.state.State;
     const filteredData = [];
     for(var i = 0; i < tableData.length; i++) {
+      const tripActivities = tableData[i].activities.split(", ");
       if(
-        difficulty.includes("" + tableData[i].difficulty) ||
-        state.includes(tableData[i].state)
+        (difficulty.includes("" + tableData[i].difficulty) ||
+        difficulty.length === 0) &&
+        (state.includes(tableData[i].state) ||
+        state.length === 0) &&
+        (this.arrayContainsAnyFrom(activities, tripActivities) ||
+        activities.length === 0)
       ) {
         filteredData.push(tableData[i]);
-      } else {
-        const tripActivities = tableData[i].activities.split(", ");
-        for(var j = 0; j < tripActivities.length; j++) {
-          if(activities.includes(tripActivities[j])) {
-            filteredData.push(tableData[i]);
-            break;
-          }
-        }
       }
     }
     if(difficulty.length === 0 && state.length === 0 && activities.length === 0) {
