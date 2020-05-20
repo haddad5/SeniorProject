@@ -22,7 +22,7 @@ const title = {
 
 const body = {
   background: '#A3663E',
-  height: 480,
+  height: "100%",
   padding: 20,
 };
 
@@ -54,6 +54,9 @@ const theme = createMuiTheme({
   },
 });
 
+const port = 8080;
+const uri = '/camping/api/trips';
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -68,9 +71,9 @@ export default class App extends React.Component {
     };
   }
   componentDidMount() {
-    fetch('http://ec2-52-15-145-226.us-east-2.compute.amazonaws.com:8080/camping/api/trips')
-        .then((response) => response.json())
-        .then((data) => this.setState({tableData: data, loading: false}));
+    fetch(`http://${window.location.hostname}:${port}${uri}`)
+      .then((response) => response.json())
+      .then((data) => this.setState({tableData: data, loading: false}));
   }
 
   onMenuChange(menuName, newValue) {
@@ -149,13 +152,11 @@ export default class App extends React.Component {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={2} style={body}>
-          </Grid>
-          <Grid item xs={10} style={body}>
+          <Grid item xs={12} style={body}>
             {this.state.loading || this.state.tableData == null ? (
               <CircularProgress color="primary" />
             ) : (
-              <Table data={this.filterTrips()} />
+              <Table data={this.state.tableData} columnOrder={['name', 'description', 'city', 'state', 'difficulty', 'activities']}/>
             )}
           </Grid>
         </Grid>

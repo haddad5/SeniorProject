@@ -20,16 +20,10 @@ export default class MyTable extends React.Component {
     super(props);
     this.getHeader = this.getHeader.bind(this);
     this.getRowsData = this.getRowsData.bind(this);
-    this.getKeys = this.getKeys.bind(this);
-  }
-
-  getKeys() {
-    const data = this.props.data;
-    return Object.keys(data[0]);
   }
 
   getHeader() {
-    const keys = this.getKeys();
+    const keys = this.props.columnOrder;
     return keys.map((key, index)=>{
       return <TableCell key={index}>{key.toUpperCase()}</TableCell>;
     });
@@ -37,7 +31,7 @@ export default class MyTable extends React.Component {
 
   getRowsData() {
     const items = this.props.data;
-    const keys = this.getKeys();
+    const keys = this.props.columnOrder;
     return items.map((row, index)=>{
       console.log('row ', index, ' ', row);
       return <TableRow
