@@ -1,39 +1,57 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
+import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
-import {ThemeProvider} from '@material-ui/core/styles';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import Input from '@material-ui/core/Input';
 
-export default function SimpleMenu(props) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+export default class SimpleMenu extends React.Component {
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      choices: [],
+    };
+  }
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  render() {
+    const choices = this.state.choices;
+    const onMenuChange = this.props.onMenuChange;
+    const name = this.props.name;
 
-  const createMenu = () => {
-    const keys = props.items;
-    return keys.map((key, index)=>{
-      return <MenuItem key={key}>{key}</MenuItem>;
-    });
-  };
+    const handleChange = (event) => {
+      const val = event.target.value;
+      this.setState({choices: val});
+      onMenuChange(name, val);
+    };
 
-  return (
-    <ThemeProvider theme={props.newTheme}>
-      <Button aria-controls="simple-menu"
-        aria-haspopup="true" onClick={handleClick}
-        variant="contained" color="primary" size="large">
-        {props.name}<ArrowDropDownIcon/>
-      </Button>
-      <Menu anchorEl={anchorEl} keepMounted
-        open={Boolean(anchorEl)} onClose={handleClose}>
-        {createMenu()}
-      </Menu>
-    </ThemeProvider>
-  );
+    return (
+      <FormControl style={{minWidth: 120, maxWidth: 300}}>
+        <InputLabel>{this.props.name}</InputLabel>
+        <Select
+          multiple
+          value={choices}
+          onChange={handleChange}
+          input={<Input/>}
+          renderValue={ (selected) => (
+            <div>
+              {selected.map( (value) => (
+                <Chip key={value} label={value} />
+              ))}
+            </div>
+          )}
+        >
+          {this.props.items.map( (item) => (
+            <MenuItem
+              key={item}
+              value={item}
+            >
+              {item}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    );
+  }
 }

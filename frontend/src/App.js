@@ -37,7 +37,7 @@ const filter = {
 };
 
 const searchbar = {
-  width: '98%',
+  width: '94%',
 };
 
 const theme = createMuiTheme({
@@ -57,9 +57,14 @@ const theme = createMuiTheme({
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    this.onMenuChange = this.onMenuChange.bind(this);
+    this.arrayContainsAllFrom = this.arrayContainsAllFrom.bind(this);
     this.state = {
       loading: true,
-      tableData: null,
+      tableData: [],
+      difficulty: [],
+      state: [],
+      activities: [],
     };
   }
   componentDidMount() {
@@ -67,6 +72,46 @@ export default class App extends React.Component {
         .then((response) => response.json())
         .then((data) => this.setState({tableData: data, loading: false}));
   }
+
+  onMenuChange(menuName, newValue) {
+    this.setState({[menuName.toLowerCase()]: newValue});
+  }
+
+  arrayContainsAllFrom(arr1, arr2) {
+    for (var x = 0; x < arr1.length; x++) {
+      if (!arr2.includes(arr1[x])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  filterTrips() {
+    const {tableData, difficulty, activities, state} = this.state;
+    const filteredData = [];
+    for (var i = 0; i < tableData.length; i++) {
+      const tripActivities = tableData[i].activities.split(', ');
+      if (
+        (difficulty.includes('' + tableData[i].difficulty) ||
+        difficulty.length === 0) &&
+        (state.includes(tableData[i].state) ||
+        state.length === 0) &&
+        (this.arrayContainsAllFrom(activities, tripActivities) ||
+        activities.length === 0)
+      ) {
+        filteredData.push(tableData[i]);
+      }
+    }
+    if (difficulty.length === 0 &&
+       state.length === 0 &&
+       activities.length === 0
+    ) {
+      return tableData;
+    } else {
+      return filteredData;
+    }
+  }
+
   render() {
     return (
       <ThemeProvider theme={theme}>
@@ -75,45 +120,42 @@ export default class App extends React.Component {
             <img src={tree} style={image}/>
           </Grid>
           <Grid item xs={3} style={header}>
-            <Typography variant="h4" style={title} >Camping Advisor USA</Typography>
+            <Typography variant="h4" style={title} >
+              Camping Advisor USA
+            </Typography>
+            <Typography variant="body1">
+              The perfect site for all of your camping needs.
+            </Typography>
           </Grid>
           <Grid item xs={8} style={header}>
             <Grid container style={filter}>
               <Grid item xs={4}>
-                <Menu newTheme={theme} name='Difficulty'
-                  items={['1', '2', '3', '4', '5']}/>
-                <Menu name='State'
-                  items={['NH', 'MA', 'RI', 'VT', 'ME']}
-                />
+                <Menu name='Difficulty' items={['1', '2', '3', '4', '5']} onMenuChange={this.onMenuChange} />
+                <Menu name='State' items={['NH', 'MA', 'RI', 'VT', 'ME']} onMenuChange={this.onMenuChange} />
                 <Menu name='Activities' 
                   items={[
                     'First year requirements',
                     'Backwoods Engineering',
                     'Hiking',
-                    'Dispersed Camping'
+                    'Dispersed Camping',
                   ]}
+                  onMenuChange={this.onMenuChange}
                 />
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={8}>
                 <TextField label='Search' color='secondary'
                   variant='outlined' style={searchbar}
                 />
-              </Grid>
-              <Grid item xs={1}>
-                <Button variant='contained' color='primary'>
-                  <Search/>
-                </Button>
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={2} style={body}>
           </Grid>
           <Grid item xs={10} style={body}>
-            <Typography variant="body1">The perfect site for all of your camping needs.</Typography>
             {this.state.loading || this.state.tableData == null ? (
               <CircularProgress color="primary" />
             ) : (
-              <Table data={this.state.tableData}/>
+              <Table data={this.filterTrips()} />
             )}
           </Grid>
         </Grid>
