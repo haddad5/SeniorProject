@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS "trips" (
 	"name"	TEXT,
 	"description"	TEXT,
 	"city"	TEXT,
-	"state"	TEXT,
+	"state"	INTEGER,
 	"difficulty"	INTEGER,
 	"activities"	TEXT
 );
