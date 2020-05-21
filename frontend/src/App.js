@@ -130,12 +130,9 @@ export default class App extends React.Component {
           <Grid item xs={8} style={header}>
             <Grid container style={filter}>
               <Grid item xs={4}>
-                <Menu newTheme={theme} name='Difficulty'
-                  items={['1', '2', '3', '4', '5']}/>
-                <Menu name='State'
-                  items={['NH', 'MA', 'RI', 'VT', 'ME']}
-                />
-                <Menu name='Activities'
+                <Menu name='Difficulty' items={['1', '2', '3', '4', '5']} onMenuChange={this.onMenuChange} />
+                <Menu name='State' items={['NH', 'MA', 'RI', 'VT', 'ME']} onMenuChange={this.onMenuChange} />
+                <Menu name='Activities' 
                   items={[
                     'First year requirements',
                     'Backwoods Engineering',
