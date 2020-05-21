@@ -156,7 +156,7 @@ export default class App extends React.Component {
             {this.state.loading || this.state.tableData == null ? (
               <CircularProgress color="primary" />
             ) : (
-              <Table data={this.state.tableData} columnOrder={['name', 'description', 'city', 'state', 'difficulty', 'activities']}/>
+              <Table data={this.filterTrips()} columnOrder={['name', 'description', 'city', 'state', 'difficulty', 'activities']}/>
             )}
           </Grid>
         </Grid>

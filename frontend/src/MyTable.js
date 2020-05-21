@@ -8,7 +8,6 @@ import TableCell from '@material-ui/core/TableCell';
 import Paper from '@material-ui/core/Paper';
 
 const RenderRow = (props) =>{
-  console.log('keys', props.keys);
   return props.keys.map((key, index)=>{
     return <TableCell key={index}>{props.data[key]}</TableCell>;
   });
@@ -33,7 +32,6 @@ export default class MyTable extends React.Component {
     const items = this.props.data;
     const keys = this.props.columnOrder;
     return items.map((row, index)=>{
-      console.log('row ', index, ' ', row);
       return <TableRow
         style ={index % 2? {background: '#649568'}:{background: '#9ccc9c'}}
         key={index}><RenderRow data={row} keys={keys}/></TableRow>;
@@ -41,7 +39,6 @@ export default class MyTable extends React.Component {
   }
 
   render() {
-    console.log('Data inside of table ', this.props.data);
     if (this.props.data.length !== 0) {
       return (
         <TableContainer component={Paper}>

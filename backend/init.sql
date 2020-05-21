@@ -5,3 +5,5 @@ INSERT INTO trips (name, description, city, state, difficulty, activities) VALUE
 ('The Decalibron','Touch the summits of four 14''ers in Colorado. Mt. Democrat, Mt., Liberty, Mt, Bross, Mt Cameron. Start before sunrise to avoid afternoon thunderstorms. 7.6 miles round trip but due to elevation it will take a lot of effort. At least 24 hours of acclimatizing required.','Alma','CO',5,'Hiking, Orienteering'),
 ('Connecticut River Canoe Trip','Park and put in near NH/VT border near Lebanon NH.  30 mile paddle drown river.  Lots of camping options along the way.  Makes for a great 3day/2night weekend.','Lebanon','NH',3,'Canoeing, Camping'),
 ('Umbagog Canoe Trip','Multi-day/night paddle across Lake Umbagog.  Lots of camping options on islands.','Errol','NH',3,'Canoeing, Camping, Swimming');
+INSERT INTO states (code) VALUES
+('NH'),('CO');

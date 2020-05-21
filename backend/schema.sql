@@ -7,3 +7,8 @@ CREATE TABLE IF NOT EXISTS "trips" (
 	"difficulty"	INTEGER,
 	"activities"	TEXT
 );
+
+CREATE TABLE IF NOT EXISTS "states" (
+	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	"code"	TEXT
+)
