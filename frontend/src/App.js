@@ -6,7 +6,7 @@ import Table from './MyTable.js';
 import Menu from './MyMenu.js';
 import {createMuiTheme} from '@material-ui/core/styles';
 import {ThemeProvider} from '@material-ui/core/styles';
-import Grid from '@material-ui/core/grid';
+import Grid from '@material-ui/core/Grid';
 import './stylesheet.css';
 import tree from './images/tree.png';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -133,14 +133,24 @@ export default class App extends React.Component {
           <Grid item xs={8} style={header}>
             <Grid container style={filter}>
               <Grid item xs={4}>
-                <Menu name='Difficulty' items={['1', '2', '3', '4', '5']} onMenuChange={this.onMenuChange} />
-                <Menu name='State' items={['NH', 'MA', 'RI', 'VT', 'ME']} onMenuChange={this.onMenuChange} />
+                <Menu name='Difficulty'
+                  items={['1', '2', '3', '4', '5']}
+                  onMenuChange={this.onMenuChange}
+                />
+                <Menu name='State'
+                  items={['NH', 'MA', 'RI', 'VT', 'ME']}
+                  onMenuChange={this.onMenuChange}
+                />
                 <Menu name='Activities' 
                   items={[
                     'First year requirements',
                     'Backwoods Engineering',
                     'Hiking',
                     'Dispersed Camping',
+                    'Orienteering',
+                    'Canoeing',
+                    'Camping',
+                    'Swimming',
                   ]}
                   onMenuChange={this.onMenuChange}
                 />
@@ -156,7 +166,16 @@ export default class App extends React.Component {
             {this.state.loading || this.state.tableData == null ? (
               <CircularProgress color="primary" />
             ) : (
-              <Table data={this.filterTrips()} columnOrder={['name', 'description', 'city', 'state', 'difficulty', 'activities']}/>
+              <Table data={this.filterTrips()}
+                columnOrder={[
+                  'name',
+                  'description',
+                  'city',
+                  'state',
+                  'difficulty',
+                  'activities'
+                ]}
+              />
             )}
           </Grid>
         </Grid>

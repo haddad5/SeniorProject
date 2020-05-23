@@ -1,5 +1,6 @@
 FROM tomcat
 WORKDIR /home
+RUN ls
 RUN apt-get update
 RUN apt-get install -y npm
 RUN npm install --global react-scripts

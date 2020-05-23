@@ -1,14 +1,27 @@
-CREATE TABLE IF NOT EXISTS "trips" (
-	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
-	"name"	TEXT,
-	"description"	TEXT,
-	"city"	TEXT,
-	"state"	INTEGER,
-	"difficulty"	INTEGER,
-	"activities"	TEXT
+CREATE TABLE IF NOT EXISTS trips (
+	id	INTEGER PRIMARY KEY AUTOINCREMENT,
+	name	TEXT,
+	description	TEXT,
+	city	TEXT,
+	state	INTEGER,
+	difficulty	INTEGER,
+	FOREIGN KEY(state) REFERENCES states(id)
 );
 
-CREATE TABLE IF NOT EXISTS "states" (
-	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
-	"code"	TEXT
-)
+CREATE TABLE IF NOT EXISTS states (
+	id	INTEGER PRIMARY KEY AUTOINCREMENT,
+	code	TEXT UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS activities (
+	id	INTEGER PRIMARY KEY AUTOINCREMENT,
+	name	TEXT UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS trip_activities (
+	id	INTEGER PRIMARY KEY AUTOINCREMENT,
+	trip_id INTEGER,
+	activity_id INTEGER,
+	FOREIGN KEY(trip_id) REFERENCES trips(id),
+	FOREIGN KEY(activity_id) REFERENCES activites(id)
+);
