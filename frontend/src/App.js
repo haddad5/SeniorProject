@@ -6,7 +6,7 @@ import Table from './MyTable.js';
 import Menu from './MyMenu.js';
 import {createMuiTheme} from '@material-ui/core/styles';
 import {ThemeProvider} from '@material-ui/core/styles';
-import Grid from '@material-ui/core/grid';
+import Grid from '@material-ui/core/Grid';
 import './stylesheet.css';
 import tree from './images/tree.png';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -22,7 +22,7 @@ const title = {
 
 const body = {
   background: '#A3663E',
-  height: 480,
+  height: "100%",
   padding: 20,
 };
 
@@ -54,6 +54,9 @@ const theme = createMuiTheme({
   },
 });
 
+const port = 8080;
+const uri = '/camping/api/trips';
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -68,9 +71,9 @@ export default class App extends React.Component {
     };
   }
   componentDidMount() {
-    fetch('http://ec2-52-15-145-226.us-east-2.compute.amazonaws.com:8080/camping/api/trips')
-        .then((response) => response.json())
-        .then((data) => this.setState({tableData: data, loading: false}));
+    fetch(`http://${window.location.hostname}:${port}${uri}`)
+      .then((response) => response.json())
+      .then((data) => this.setState({tableData: data, loading: false}));
   }
 
   onMenuChange(menuName, newValue) {
@@ -130,14 +133,24 @@ export default class App extends React.Component {
           <Grid item xs={8} style={header}>
             <Grid container style={filter}>
               <Grid item xs={4}>
-                <Menu name='Difficulty' items={['1', '2', '3', '4', '5']} onMenuChange={this.onMenuChange} />
-                <Menu name='State' items={['NH', 'MA', 'RI', 'VT', 'ME']} onMenuChange={this.onMenuChange} />
+                <Menu name='Difficulty'
+                  items={['1', '2', '3', '4', '5']}
+                  onMenuChange={this.onMenuChange}
+                />
+                <Menu name='State'
+                  items={['NH', 'MA', 'RI', 'VT', 'ME']}
+                  onMenuChange={this.onMenuChange}
+                />
                 <Menu name='Activities' 
                   items={[
                     'First year requirements',
                     'Backwoods Engineering',
                     'Hiking',
                     'Dispersed Camping',
+                    'Orienteering',
+                    'Canoeing',
+                    'Camping',
+                    'Swimming',
                   ]}
                   onMenuChange={this.onMenuChange}
                 />
@@ -149,13 +162,20 @@ export default class App extends React.Component {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={2} style={body}>
-          </Grid>
-          <Grid item xs={10} style={body}>
+          <Grid item xs={12} style={body}>
             {this.state.loading || this.state.tableData == null ? (
               <CircularProgress color="primary" />
             ) : (
-              <Table data={this.filterTrips()} />
+              <Table data={this.filterTrips()}
+                columnOrder={[
+                  'name',
+                  'description',
+                  'city',
+                  'state',
+                  'difficulty',
+                  'activities'
+                ]}
+              />
             )}
           </Grid>
         </Grid>
