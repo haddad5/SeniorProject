@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS trips (
 	description	TEXT,
 	city	TEXT,
 	state	INTEGER,
-	difficulty	INTEGER
+	difficulty	INTEGER,
+	activities TEXT
 );
